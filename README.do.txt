@@ -1,5 +1,5 @@
 !bquote
-`gbox-py` is a gbox that provides a number of gboxes from Python. It is part of the standard gbox set.
+`gbox-betatom` is a gbox that implements betato. It is part of the standard gbox set.
 !equote
 
 ===== Prerequisites =====
@@ -27,13 +27,17 @@ to deposit the preferences on the database. Since these gboxes are in fact docke
 pulled if they do not exist locally on the system. Convenience scripts are provided for installing specific gboxes.
 
 !bc sys
-$ gx run.sh                                  # Will start the database, taskrunner, and webapp
-$ gx installGbox.sh granatumx/gbox-py:1.0.0  # Install this gbox
+$ gx run.sh                                       # Will start the database, taskrunner, and webapp
+$ gx installGbox.sh granatumx/gbox-betatom:1.0.0  # Install this gbox
 
 # Now go to http://localhost:34567 and see this gbox installed when you add a step.
 !ec
 
 ===== Notes =====
 
-The gbox has a set of parameters passed into it on the frontend. These are defined in the `yamls/*.yaml` file.
-This tool uses mainly python functions for the granatum_sdk to set up the gbox.
+Many methylation datasets use the Beta-value (ranging from 0 to 1) to measure the percentage of methylation. This
+gbox converts these values into the log2 ratio of the intensities of methylated probe versus unmethylated probe (m-value).
+
+    The "epsilon" parameter is for avoiding infinite results. The full formula for this conversion is:
+
+        y = log((x + epsilon) / (1 - x + epsilon))
